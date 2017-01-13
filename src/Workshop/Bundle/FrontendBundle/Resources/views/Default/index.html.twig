@@ -1,1 +1,5 @@
-Hello World!
+{%extends "WorkshopFrontendBundle:Layout:sidebarLayout.html.twig"%}
+
+{% block content %}
+    {%include "WorkshopFrontendBundle:Post:_list.html.twig" with {posts: posts}%}
+{% endblock %}

@@ -1,0 +1,40 @@
+{%extends "::base.html.twig"%}
+
+{%if edit_form is defined%}
+    {% form_theme edit_form 'WorkshopBackendBundle:Common:_form.html.twig' %}
+{%endif%}
+{%if delete_form is defined%}
+    {% form_theme delete_form 'WorkshopBackendBundle:Common:_form.html.twig' %}
+{%endif%}
+{%if form is defined%}
+    {% form_theme form 'WorkshopBackendBundle:Common:_form.html.twig' %}
+{%endif%}
+
+{%block javascripts%}
+{{parent()}}
+{% javascripts
+    'bundles/workshopbackend/js/jquery.min.js'
+    'bundles/workshopbackend/js/bootstrap.min.js'
+    output='js/frontendbase.js'
+%}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+{%endblock%}
+
+{%block stylesheets%}
+{{parent()}}
+{% stylesheets
+    'bundles/workshopbackend/css/bootstrap.min.css'
+    'bundles/workshopbackend/css/bootstrap-theme.min.css'
+    'bundles/workshopfrontend/css/main.stylus'
+    output='css/frontendbase.css'
+%}
+<link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %}
+{%endblock%}
+
+{%block body%}
+    {%block header%}{%include "WorkshopBackendBundle:Common:_header.html.twig"%}{%endblock%}
+    <div class="container main-content">{%block main%}{%endblock%}</div>
+    {%block footer%}{%include "WorkshopBackendBundle:Common:_footer.html.twig"%}{%endblock%}
+{%endblock%}
