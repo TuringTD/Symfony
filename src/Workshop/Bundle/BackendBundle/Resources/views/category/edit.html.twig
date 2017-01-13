@@ -1,0 +1,23 @@
+{%extends "WorkshopBackendBundle:Layout:bootstrapLayout.html.twig"%}
+
+{%block main%}
+
+    <h1>编辑分类</h1>
+    <ul>
+        <li>
+            <a href="{{ path('category') }}">分类管理</a>
+        </li>
+        {#<li>#}
+            {#{{ form_start(delete_form) }}#}
+            {#<input type="submit" value="删除">#}
+            {#{{ form_end(delete_form) }}#}
+        {#</li>#}
+    </ul>
+
+    {{ form_start(edit_form) }}
+        {{ form_widget(edit_form) }}
+        <input type="submit" value="提交" />
+    {{ form_end(edit_form) }}
+
+
+{%endblock%}

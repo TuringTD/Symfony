@@ -1,0 +1,16 @@
+{%extends "WorkshopBackendBundle:Layout:bootstrapLayout.html.twig"%}
+
+{%block main%}
+    <h1>添加分类</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input type="submit" value="保存" />
+    {{ form_end(form) }}
+
+    <ul>
+        <li>
+            <a href="{{ path('category') }}">分类管理</a>
+        </li>
+    </ul>
+{% endblock %}
