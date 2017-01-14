@@ -69,3 +69,14 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+
+fos_user:
+# orm将告诉bundle使用Doctrine
+    db_driver:        orm
+#    告诉应用程序我们要使用WorkshopBackendBundle:Member作为用户类
+    user_class:       WorkshopBackendBundle:Member
+#    指定要使用的防火墙的名称，防火墙名称-在security.yml中有定义，
+    firewall_name:    admin
+    group:
+        group_class:  WorkshopBackendBundle:Groups

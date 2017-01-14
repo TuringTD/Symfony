@@ -1,24 +1,54 @@
-# To get started with security, check out the documentation:
-# http://symfony.com/doc/current/security.html
 security:
+#    加密方式
+    #encoders将告诉应用程序使用哪个算法来编码User对象的密码。
+    #这是我们的用户实体类，我们将在下面的步骤中创建。
+    encoders:
+        FOS\UserBundle\Model\UserInterface: bcrypt
 
-    # http://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+#   配置角色
+    role_hierarchy:
+#    例如:这里是普通用户角色
+        ROLE_ADMIN:          ROLE_USER
+#        超级用户角色
+        ROLE_SUPER_ADMIN:    [ROLE_POST, ROLE_CATEGORY]
+#        自己添加的角色 ,分配角色
+#        文章权限
+        ROLE_POST:           ROLE_ADMIN
+#        分类权限
+        ROLE_CATEGORY:       ROLE_ADMIN
+
+#   这将注册用户提供程序，其中fos_user.user_provider.username是在FOS用户包中注册的服务FOS\UserBundle\Security\UserProvider ID。
     providers:
-        in_memory:
-            memory: ~
+        admin:
+            id:                 fos_user.user_provider.username
 
+#   防火墙配置
+    #Symfony中的防火墙类似于我们熟悉的防火墙。 我们创建了一个名为main防火墙。
+    #pattern键指定此防火墙应匹配的网址模式。
+    #关键form_login指定我们将使用登录表单来验证用户，
+    #并且我们希望使用我们的fos_userbundle作为用户提供者。
     firewalls:
-        # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
+            pattern:            ^/(_(profiler|wdt)|css|images|js)/
+            security:           false
 
-        main:
-            anonymous: ~
-            # activate different ways to authenticate
+        admin:
+            pattern: ^/admin/
+            form_login:
+                login_path:     fos_user_security_login
+                check_path:     fos_user_security_check
+            logout:
+                path:            fos_user_security_logout
+#                target:          @BackendHome
+            anonymous:           true
 
-            # http_basic: ~
-            # http://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
-
-            # form_login: ~
-            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+    #相当于过滤器,什么角色访问什么路由
+    #access_control根据用户角色限制对URL的访问。
+    #登录，注册和重置页面应该可以公开访问，
+    #因此他们需要IS_AUTHENTICATED_ANONYMOUSLY角色，默认情况下，任何人访问任何页面
+    access_control:
+        - { path: ^/admin/login,    roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/category, roles: ROLE_CATEGORY }
+        - { path: ^/admin/post,     roles: ROLE_POST }
+        - { path: ^/admin/user,     roles: ROLE_SUPER_ADMIN }
+        - { path: ^/admin/,         roles: ROLE_ADMIN }

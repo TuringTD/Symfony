@@ -3,7 +3,7 @@
 namespace Workshop\Bundle\BackendBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 /**
  * Post
  *
